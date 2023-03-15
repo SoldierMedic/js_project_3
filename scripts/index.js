@@ -3,21 +3,30 @@ const val2 = document.getElementById('val2')
 const val3 = document.getElementById('val3')
 const statusDisplay = document.getElementById('statusDisplay')
 
-const numbers = []
-const performArithmetics(){
-    numbers[0] = parseInt(val1.value)
-    numbers[1] = parseInt(val2.value)
-    numbers[2] = parseInt(val3.value)
-    numbers.sort()
-    var high = numbers[2]
-    var low = numbers[0]
-    var median = numbers[1]
-    var average = numbers.reduce((acc, curr) => acc + curr, 0)/2;
-    var range = numbers[2]-numbers[0]
+const numbers = [val1,val2,val3]
+
+const performArithmetics = () => {
+    const [firstNum, secondNum, thirdNum] = numbers.map(val => parseInt(val.value))
+    
+    if (isNaN(firstNum) || isNaN(secondNum) || isNaN(thirdNum)) {
+        statusDisplay.innerHTML = 'Please enter valid numbers.'
+        return
+    }
+    
+    const sortedNums = [firstNum, secondNum, thirdNum].sort((a, b) => a - b)
+    const [low, median, high] = sortedNums
+    const average = (sortedNums.reduce((acc, curr) => acc + curr, 0) / sortedNums.length).toFixed(2)
+    const range = high - low
+    
     updateDisplay(high, low, median, average, range)
 }
 
-
-function updateDisplay(high,low,median,average,range){
-    statusDisplay.innerHTML = `High: ${high}, Low: ${low}, Median: ${median}, Average: ${average}, Range: ${range}`
+const updateDisplay = (high, low, median, average, range) => {
+    statusDisplay.innerHTML = `
+        High: ${high}, 
+        Low: ${low}, 
+        Median: ${median}, 
+        Average: ${average}, 
+        Range: ${range}`
 }
+
